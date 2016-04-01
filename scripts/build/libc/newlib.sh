@@ -123,7 +123,10 @@ do_libc() {
 
     CT_DoLog EXTRA "Installing C library"
     CT_DoExecLog ALL make install install_root="${CT_SYSROOT_DIR}"
-
+    if [ "${CT_TOOLCHAIN_TYPE}" = "canadian" ]; then
+	    cp -R ${CT_PREFIX_DIR}/${CT_TARGET}/include/* ${CT_BUILDTOOLS_PREFIX_DIR}/${CT_TARGET}/include/
+	    cp -R ${CT_SYSROOT_DIR} ${CT_BUILDTOOLS_PREFIX_DIR}/${CT_TARGET}/
+    fi
     if [ "${CT_BUILD_MANUALS}" = "y" ]; then
         local -a doc_dir="${CT_BUILD_DIR}/build-libc/${CT_TARGET}"
 
